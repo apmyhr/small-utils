@@ -27,13 +27,8 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
+      <v-btn icon @click="darkMode = !darkMode">
+        <v-icon>mdi-theme-light-dark</v-icon>
       </v-btn>
     </v-app-bar>
 
@@ -53,8 +48,25 @@ export default {
     HelloWorld,
   },
 
+  created(){
+    console.log(this.darkMode);
+    this.$vuetify.theme.dark = this.darkMode;
+  },
+
   data: () => ({
     //
   }),
+
+  computed: {
+    darkMode: {
+      get: function(){
+        return this.$store.state.settings.darkMode;
+      },
+      set: function(newValue){
+        this.$store.commit('settings/darkMode', newValue);
+        this.$vuetify.theme.dark = newValue;
+      }
+    }
+  }
 };
 </script>
