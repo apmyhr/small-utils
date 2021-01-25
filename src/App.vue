@@ -1,72 +1,80 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
+    <v-app-bar dense app color="primary" dark>
+      <v-app-bar-nav-icon @click="drawer = true"><v-icon>mdi-tools</v-icon></v-app-bar-nav-icon>
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
+      <v-app-bar-title>Small Utils</v-app-bar-title>
 
       <v-spacer></v-spacer>
 
       <v-btn icon @click="darkMode = !darkMode">
-        <v-icon>mdi-theme-light-dark</v-icon>
+        <v-icon>mdi-invert-colors</v-icon>
       </v-btn>
     </v-app-bar>
 
+    <v-navigation-drawer
+      v-model="drawer"
+      absolute
+      temporary
+    >
+      <v-list
+        nav
+        dense
+      >
+        <v-list-item-group
+          v-model="selectedPage"
+        >
+          <v-list-item v-for="(page, index) in pages" v-bind:key="index">
+            <v-list-item-icon>
+              <v-icon>{{page.icon}}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>{{page.title}}</v-list-item-title>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+    </v-navigation-drawer>
+
     <v-main>
-      <HelloWorld/>
+      <IconSearch></IconSearch>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
+import pages from "./configs/pages.json"
+
+import IconSearch from "./pages/IconSearch"
 
 export default {
-  name: 'App',
+  name: "App",
 
   components: {
-    HelloWorld,
+    IconSearch,
   },
 
-  created(){
+  created() {
     console.log(this.darkMode);
     this.$vuetify.theme.dark = this.darkMode;
   },
 
   data: () => ({
-    //
+    drawer: false,
+    selectedPage: null,
   }),
 
   computed: {
+    pages(){
+      return pages.pages;
+    },
     darkMode: {
-      get: function(){
+      get: function () {
         return this.$store.state.settings.darkMode;
       },
-      set: function(newValue){
-        this.$store.commit('settings/darkMode', newValue);
+      set: function (newValue) {
+        this.$store.commit("settings/darkMode", newValue);
         this.$vuetify.theme.dark = newValue;
-      }
-    }
-  }
+      },
+    },
+  },
 };
 </script>
