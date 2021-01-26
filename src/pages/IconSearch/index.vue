@@ -1,41 +1,50 @@
 <template>
-  <v-card tile elevation="16" class="mx-auto" style="width: 90%">
+  <v-card tile elevation="16" class="mx-auto pageCard" v-resize="onResize" id="iconListCard">
     <v-card-title class="white--text orange darken-4">
       Icon Search
       <v-spacer></v-spacer>
       <v-btn color="white" class="text--primary" fab small>
-        <v-icon>mdi-plus</v-icon>
+        <v-icon color="black">mdi-plus</v-icon>
       </v-btn>
     </v-card-title>
     <v-card-title>
       <v-text-field v-model="filterText" clearable></v-text-field>
     </v-card-title>
-    <v-virtual-scroll
-      :items="filteredIcons"
-      height="300"
-      item-height="64"
-      bench="2"
-    >
+    <v-virtual-scroll :items="iconRows" height="600" :item-height="iconCardSize.height" bench="10">
       <template v-slot:default="{ item }">
-        <v-list-item :key="item">
-          <v-list-item-icon
-            ><v-icon>{{ item }}</v-icon></v-list-item-icon
+        <v-card
+          class="d-flex align-content-start justify-center flex-wrap"
+          color="grey lighten-2"
+          flat
+          tile
+          :height="iconCardSize.height"
+        >
+          <v-card
+            v-for="(icon, index) in item"
+            v-bind:key="icon + index"
+            outlined
+            tile
+            :height="iconCardSize.height"
+            :width="iconCardSize.width"
           >
-          <v-list-item-content>
-            <v-list-item-title>{{ item }}</v-list-item-title>
-          </v-list-item-content>
-          <v-list-item-action>
-            <v-btn icon @click="copyText(item)"
-              ><v-icon small> mdi-content-copy </v-icon></v-btn
-            >
-          </v-list-item-action>
-        </v-list-item>
+            <v-icon size="88" class="mx-8">{{ icon }}</v-icon>
+            <v-card-actions class="caption pa-0 ma-0">
+            <v-card-subtitle class="caption pa-0 ma-0 ml-2 text-truncate">{{ icon }}
+            </v-card-subtitle>
+            <v-spacer></v-spacer>
+              <v-btn small icon @click="copyText(icon)"
+              ><v-icon small> mdi-content-copy </v-icon></v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-card>
       </template>
     </v-virtual-scroll>
   </v-card>
 </template>
 
 <script>
+import * as arrayUtils from "../../utils/arrayUtils";
+
 export default {
   name: "IconSearch",
   components: {},
@@ -56,14 +65,29 @@ export default {
         throw err;
       });
   },
+  mounted () {
+    this.onResize()
+  },
   data() {
     return {
       /** @type {String[]} List of Icons */
       icons: [],
       filterText: "",
+      iconListSize: {
+        width: 0,
+        height: 0,
+      },
+      iconCardSize: {
+        width: 152,
+        height: 124,
+      }
     };
   },
   computed: {
+    /**
+     * Get filtered list of icons based on the searched text
+     * @returns {String[]} List of icons
+     */
     filteredIcons() {
       if (this.filterText) {
         let lowerCase = this.filterText.toLowerCase();
@@ -71,17 +95,38 @@ export default {
 
         //Sort it such that items with the filtered text in beginning will show up first
         //When searching "file", this ensures "mdi-file" will show up long before "mdi-face-profile"
-        filteredList.sort(function(a, b){return a.indexOf(lowerCase)-b.indexOf(lowerCase)});
+        filteredList.sort(function (a, b) {
+          return a.indexOf(lowerCase) - b.indexOf(lowerCase);
+        });
 
         return filteredList;
       } else {
         return this.icons;
       }
     },
+
+    /**
+     * Split list of icons into rows based on the width of the screen
+     * @returns {String[][]} List of rows
+     */
+    iconRows() {
+      //Figure out row length based on width
+      let rowLength = Math.max(Math.floor(this.iconListSize.width / this.iconCardSize.width), 1);
+
+      let rows = arrayUtils.divideIntoRows(this.filteredIcons, rowLength);
+
+      console.log(rows);
+      return rows;
+    },
   },
   methods: {
     copyText(text) {
       navigator.clipboard.writeText(text);
+    },
+    onResize () {
+      let element = document.getElementById("iconListCard");
+      this.iconListSize = { width: element.clientWidth, height: element.clientHeight }
+      console.log(this.iconListSize);
     },
   },
 };

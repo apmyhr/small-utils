@@ -34,7 +34,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-main>
+    <v-main class="mainSection">
       <IconSearch></IconSearch>
     </v-main>
   </v-app>
@@ -78,3 +78,16 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.mainSection{
+  height: calc(100% - 48px);
+}
+</style>
+
+<style>
+.pageCard {
+  height: calc(100%);
+  width: 100%;
+}
+</style>
