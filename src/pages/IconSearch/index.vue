@@ -1,5 +1,5 @@
 <template>
-  <v-card elevation="16" max-width="400" class="mx-auto">
+  <v-card tile elevation="16" class="mx-auto" style="width: 90%">
     <v-card-title class="white--text orange darken-4">
       Icon Search
       <v-spacer></v-spacer>
@@ -67,7 +67,13 @@ export default {
     filteredIcons() {
       if (this.filterText) {
         let lowerCase = this.filterText.toLowerCase();
-        return this.icons.filter((p) => p.indexOf(lowerCase) != -1);
+        let filteredList = this.icons.filter((p) => p.indexOf(lowerCase) != -1);
+
+        //Sort it such that items with the filtered text in beginning will show up first
+        //When searching "file", this ensures "mdi-file" will show up long before "mdi-face-profile"
+        filteredList.sort(function(a, b){return a.indexOf(lowerCase)-b.indexOf(lowerCase)});
+
+        return filteredList;
       } else {
         return this.icons;
       }
