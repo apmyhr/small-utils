@@ -40,10 +40,9 @@
           >
             <v-icon size="88" class="mx-8">{{ icon }}</v-icon>
             <v-card-actions class="caption pa-0 ma-0">
-              <v-card-subtitle class="caption pa-0 ma-0 ml-2 text-truncate"
+              <v-card-subtitle class="caption pa-0 ma-0 ml-2 text-truncate text-center" style="width: 100%"
                 >{{ icon }}
               </v-card-subtitle>
-              <v-spacer></v-spacer>
               <v-btn small icon @click="copyText(icon)"
                 ><v-icon small> mdi-content-copy </v-icon></v-btn
               >
