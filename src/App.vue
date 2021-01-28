@@ -1,60 +1,106 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
+    <v-app-bar dense app color="primary" dark>
+      <v-app-bar-nav-icon @click="drawer = true"><v-icon>mdi-menu</v-icon></v-app-bar-nav-icon>
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
+      <v-app-bar-title style="position: absolute; left: 48px">
+        SmallUtils.com
+        <v-btn icon href="https://github.com/apmyhr/small-utils" target="blank">
+          <v-icon>mdi-github</v-icon>
+        </v-btn>
+      </v-app-bar-title>
 
       <v-spacer></v-spacer>
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
+      <v-app-bar-title>
+        {{selectedPage.title}}
+        </v-app-bar-title>
+
+      <v-spacer></v-spacer>
+
+      <v-btn icon @click="darkMode = !darkMode">
+        <v-icon>mdi-invert-colors</v-icon>
       </v-btn>
     </v-app-bar>
 
-    <v-main>
-      <HelloWorld/>
+    <v-navigation-drawer
+      v-model="drawer"
+      absolute
+      temporary
+    >
+      <v-list
+        nav
+        dense
+      >
+        <v-list-item-group
+          v-model="selectedPageNumber"
+        >
+          <v-list-item v-for="(page, index) in pages" v-bind:key="index">
+            <v-list-item-icon>
+              <v-icon>{{page.icon}}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>{{page.title}}</v-list-item-title>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-main class="mainSection">
+      <IconSearch v-if="selectedPage.title == 'Icon Search'"></IconSearch>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
+import pages from "./configs/pages.json"
+
+import IconSearch from "./pages/IconSearch"
 
 export default {
-  name: 'App',
+  name: "App",
 
   components: {
-    HelloWorld,
+    IconSearch,
+  },
+
+  created() {
+    this.$vuetify.theme.dark = this.darkMode;
   },
 
   data: () => ({
-    //
+    drawer: false,
+    selectedPageNumber: 0,
   }),
+
+  computed: {
+    pages(){
+      return pages.pages;
+    },
+    selectedPage(){
+      return this.pages[this.selectedPageNumber]
+    },
+    darkMode: {
+      get: function () {
+        return this.$store.state.settings.darkMode;
+      },
+      set: function (newValue) {
+        this.$store.commit("settings/darkMode", newValue);
+        this.$vuetify.theme.dark = newValue;
+      },
+    },
+  },
 };
 </script>
+
+<style scoped>
+.mainSection{
+  height: calc(100% - 48px);
+}
+</style>
+
+<style>
+.pageCard {
+  height: calc(100%);
+  width: 100%;
+}
+</style>

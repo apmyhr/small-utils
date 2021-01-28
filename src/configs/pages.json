@@ -1,0 +1,24 @@
+{
+    "$schema": "./pages-schema.json",
+    "pages": [
+    {
+        "title": "Icon Search",
+        "icon": "mdi-card-search",
+        "description": "Search for icons across Material Design and Font Awesome."
+    },
+    {
+        "title": "Picture Tools",
+        "icon": "mdi-image-multiple",
+        "description": "Tools for dealing with a massive library of pictures.  Organize photos into sub folders by date.  Extract exif data including geo points.  Bulk renaming of files."
+    },
+    {
+        "title": "Hex Viewer",
+        "icon": "mdi-hexadecimal",
+        "description": "A simple hex viewer and editor in case you dont want to download and install a Hex editor."
+    },
+    {
+        "title": "Data Generator",
+        "icon": "mdi-format-list-text",
+        "description": "Generate random data.  Quick tools for random numbers, words, sentences, and paragraphs.  Load a JSON schema for generating more complex object models such as Chats or Customers."
+    }
+]}

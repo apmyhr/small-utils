@@ -1,0 +1,27 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "object",
+    "properties": {
+        "pages": {
+            "type": "array",
+            "description": "List of pages for the site",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "Title of the Page"
+                    },
+                    "icon": {
+                        "type": "string",
+                        "description": "Icon for the page"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Description of the page"
+                    }
+                }
+            }
+        }
+    }
+}
