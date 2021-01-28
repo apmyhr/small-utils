@@ -6,34 +6,35 @@
     v-resize="onResize"
     id="iconListCard"
   >
-    <v-card-title class="white--text orange darken-4">
-      Icon Search
-      <v-spacer></v-spacer>
+    <v-card-title>
+      <v-text-field
+      class="mx-2"
+        clearable
+        @input="updateFilterText"
+        :hint="filterHint"
+        placeholder="Type to filter icon list"
+      ></v-text-field>
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-btn
-            color="white"
-            class="text--primary"
+            class="text--primary mx-2"
             fab
             small
             :href="url"
             download
             v-on="on"
           >
-            <v-icon color="black">mdi-download</v-icon>
+            <v-icon>mdi-download</v-icon>
           </v-btn>
         </template>
         <span>Download the list of icons</span>
       </v-tooltip>
     </v-card-title>
-    <v-card-title>
-      <v-text-field clearable @input="updateFilterText"></v-text-field>
-    </v-card-title>
     <v-virtual-scroll
       :items="iconRows"
       height="600"
       :item-height="iconCardSize.height"
-      bench="10"
+      bench="2"
     >
       <template v-slot:default="{ item }">
         <v-card
@@ -156,6 +157,14 @@ export default {
       let rows = arrayUtils.divideIntoRows(this.filteredIcons, rowLength);
 
       return rows;
+    },
+
+    filterHint() {
+      if (this.filterText) {
+        return `Showing ${this.filteredIcons.length.toLocaleString()} out of ${this.icons.length.toLocaleString()} icons`;
+      } else {
+        return `Showing all ${this.icons.length.toLocaleString()} icons`;
+      }
     },
   },
   methods: {
