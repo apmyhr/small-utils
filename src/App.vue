@@ -53,7 +53,6 @@ export default {
   },
 
   created() {
-    console.log(this.darkMode);
     this.$vuetify.theme.dark = this.darkMode;
   },
 

@@ -17,8 +17,6 @@ const actions = {
 // mutations
 const mutations = {
   darkMode (state, newValue) {
-    console.log('newValue')
-    console.log(newValue)
     state.darkMode = newValue;
     Cookies.setCookie('darkMode', newValue);
   },

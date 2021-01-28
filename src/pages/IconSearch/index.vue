@@ -9,9 +9,22 @@
     <v-card-title class="white--text orange darken-4">
       Icon Search
       <v-spacer></v-spacer>
-      <v-btn color="white" class="text--primary" fab small>
-        <v-icon color="black">mdi-plus</v-icon>
-      </v-btn>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn
+            color="white"
+            class="text--primary"
+            fab
+            small
+            :href="url"
+            download
+            v-on="on"
+          >
+            <v-icon color="black">mdi-download</v-icon>
+          </v-btn>
+        </template>
+        <span>Download the list of icons</span>
+      </v-tooltip>
     </v-card-title>
     <v-card-title>
       <v-text-field clearable @input="updateFilterText"></v-text-field>
@@ -40,17 +53,27 @@
           >
             <v-icon size="88" class="mx-8">{{ icon }}</v-icon>
             <v-card-actions class="caption pa-0 ma-0">
-              <v-card-subtitle class="caption pa-0 ma-0 ml-2 text-truncate text-center" style="width: 100%"
+              <v-card-subtitle
+                class="caption pa-0 ma-0 ml-2 text-truncate text-center"
+                style="width: 100%"
                 >{{ icon }}
               </v-card-subtitle>
-              <v-btn small icon @click="copyText(icon)"
-                ><v-icon small> mdi-content-copy </v-icon></v-btn
-              >
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                  <v-btn small icon @click="copyText(icon)" v-on="on"
+                    ><v-icon small> mdi-content-copy </v-icon></v-btn
+                  >
+                </template>
+                <span>Copy to Clipboard</span>
+              </v-tooltip>
             </v-card-actions>
           </v-card>
         </v-card>
       </template>
     </v-virtual-scroll>
+    <v-snackbar v-model="copySnackbar" timeout="2000">
+      {{ copiedText }} Copied to Clipboard
+    </v-snackbar>
   </v-card>
 </template>
 
@@ -65,9 +88,7 @@ export default {
     //Get a handle to this before we fire off the async fetch call
     let myThis = this;
 
-    let url = "/data/iconList.json";
-
-    fetch(url)
+    fetch(this.url)
       .then((res) => res.json())
       .then((out) => {
         myThis.icons = out;
@@ -83,6 +104,7 @@ export default {
   },
   data() {
     return {
+      url: "/data/iconList.json",
       /** @type {String[]} List of Icons */
       icons: [],
       filterText: "",
@@ -94,6 +116,8 @@ export default {
         width: 152,
         height: 124,
       },
+      copySnackbar: false,
+      copiedText: null,
     };
   },
   computed: {
@@ -140,6 +164,8 @@ export default {
     }, 500),
     copyText(text) {
       navigator.clipboard.writeText(text);
+      this.copySnackbar = true;
+      this.copiedText = text;
     },
     onResize() {
       let element = document.getElementById("iconListCard");
