@@ -2,7 +2,7 @@
     "$schema": "./pages-schema.json",
     "pages": [
     {
-        "title": "Icon Search Thingy",
+        "title": "Icon Search",
         "icon": "mdi-card-search",
         "description": "Search for icons across Material Design and Font Awesome."
     },
@@ -15,5 +15,10 @@
         "title": "Hex Viewer",
         "icon": "mdi-hexadecimal",
         "description": "A simple hex viewer and editor in case you dont want to download and install a Hex editor."
+    },
+    {
+        "title": "Data Generator",
+        "icon": "mdi-format-list-text",
+        "description": "Generate random data.  Quick tools for random numbers, words, sentences, and paragraphs.  Load a JSON schema for generating more complex object models such as Chats or Customers."
     }
 ]}

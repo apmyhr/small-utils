@@ -1,9 +1,20 @@
 <template>
   <v-app>
     <v-app-bar dense app color="primary" dark>
-      <v-app-bar-nav-icon @click="drawer = true"><v-icon>mdi-tools</v-icon></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click="drawer = true"><v-icon>mdi-menu</v-icon></v-app-bar-nav-icon>
 
-      <v-app-bar-title>Small Utils</v-app-bar-title>
+      <v-app-bar-title style="position: absolute; left: 48px">
+        SmallUtils.com
+        <v-btn icon href="https://github.com/apmyhr/small-utils" target="blank">
+          <v-icon>mdi-github</v-icon>
+        </v-btn>
+      </v-app-bar-title>
+
+      <v-spacer></v-spacer>
+
+      <v-app-bar-title>
+        {{selectedPage.title}}
+        </v-app-bar-title>
 
       <v-spacer></v-spacer>
 
@@ -22,7 +33,7 @@
         dense
       >
         <v-list-item-group
-          v-model="selectedPage"
+          v-model="selectedPageNumber"
         >
           <v-list-item v-for="(page, index) in pages" v-bind:key="index">
             <v-list-item-icon>
@@ -35,7 +46,7 @@
     </v-navigation-drawer>
 
     <v-main class="mainSection">
-      <IconSearch></IconSearch>
+      <IconSearch v-if="selectedPage.title == 'Icon Search'"></IconSearch>
     </v-main>
   </v-app>
 </template>
@@ -58,12 +69,15 @@ export default {
 
   data: () => ({
     drawer: false,
-    selectedPage: null,
+    selectedPageNumber: 0,
   }),
 
   computed: {
     pages(){
       return pages.pages;
+    },
+    selectedPage(){
+      return this.pages[this.selectedPageNumber]
     },
     darkMode: {
       get: function () {
