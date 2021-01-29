@@ -11,6 +11,9 @@ import store from './store'
 
 Vue.config.productionTip = false
 
+//Setup an event bus
+Vue.prototype.$bus = new Vue();
+
 new Vue({
   vuetify,
   store,
