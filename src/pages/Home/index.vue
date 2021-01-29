@@ -1,30 +1,31 @@
 <template>
-  <v-container class="container pa-4 text-center">
-    <v-row>
-      <template v-for="(page, index) in pages">
-        <v-col :key="index" cols="12" md="4">
-          <v-hover v-slot="{ hover }">
-            <v-card tile flat color="transparent" class="card">
-              <div class="face face1">
-                <div class="content">
-                  <v-icon>{{ page.icon }}</v-icon>
-                  <h3>{{ page.title }}</h3>
-                </div>
-              </div>
-              <v-expand-transition>
-                <div class="face face2" v-if="hover">
-                  <div class="content">
-                    <p class="body-2 black--text">{{ page.description }}</p>
-                    <v-btn color="warning" class="mt-6" @click="goToPage(page)">{{page.title}}</v-btn>
-                  </div>
-                </div>
-              </v-expand-transition>
-            </v-card>
-          </v-hover>
-        </v-col>
-      </template>
-    </v-row>
-  </v-container>
+  <v-card
+    class="d-flex justify-center flex-wrap container"
+    tile
+    flat
+    color="transparent"
+  >
+    <v-hover v-slot="{ hover }" v-for="(page, index) in pages" :key="index">
+      <v-card tile flat color="transparent" class="card ma-6">
+        <div class="face face1" @click="if (hover) { goToPage(page) }">
+          <div class="content">
+            <v-icon>{{ page.icon }}</v-icon>
+            <h3>{{ page.title }}</h3>
+          </div>
+        </div>
+        <v-expand-transition>
+          <div class="face face2" v-if="hover">
+            <div class="content">
+              <p class="body-2 black--text">{{ page.description }}</p>
+              <v-btn color="warning" class="mt-6" @click="goToPage(page)">{{
+                page.title
+              }}</v-btn>
+            </div>
+          </div>
+        </v-expand-transition>
+      </v-card>
+    </v-hover>
+  </v-card>
 </template>
 
 <script>
@@ -41,15 +42,14 @@ export default {
     },
   },
   methods: {
-      goToPage(page){
-        this.$bus.$emit('go-to-page', page);
-      }
-  }
+    goToPage(page) {
+      this.$bus.$emit("go-to-page", page);
+    },
+  },
 };
 </script>
 
 <style scoped>
-
 .container .card .face {
   width: 320px;
   height: 220px;

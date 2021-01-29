@@ -8,7 +8,7 @@
   >
     <v-card-title>
       <v-text-field
-      class="mx-2"
+        class="ml-6 mr-2"
         clearable
         @input="updateFilterText"
         :hint="filterHint"
@@ -39,7 +39,7 @@
       <template v-slot:default="{ item }">
         <v-card
           class="d-flex align-content-start justify-center flex-wrap"
-          color="grey lighten-2"
+          color="transparent"
           flat
           tile
           :height="iconCardSize.height"
