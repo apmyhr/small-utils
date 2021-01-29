@@ -1,7 +1,7 @@
 import * as Cookies from '../../utils/cookieUtils';
 
 const state = () => ({
-  darkMode: Cookies.getCookie('darkMode', false)
+  darkMode: Cookies.getCookie('darkMode', true)
 })
 
 // getters
