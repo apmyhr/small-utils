@@ -8,6 +8,10 @@
             "items": {
                 "type": "object",
                 "properties": {
+                    "url": {
+                        "type": "string",
+                        "description": "URL of the Page"
+                    },
                     "title": {
                         "type": "string",
                         "description": "Title of the Page"
