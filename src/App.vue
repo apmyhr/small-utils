@@ -131,6 +131,8 @@ export default {
       let index = this.pages.findIndex((p) => p.url == url);
       if (index != -1) {
         this.selectedPageNumber = index;
+      } else {
+        this.selectedPageNumber = null;
       }
     },
   },
