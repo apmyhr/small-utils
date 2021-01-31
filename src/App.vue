@@ -80,6 +80,14 @@ export default {
     if (pathName) {
       this.setPageFromUrl(pathName);
     }
+
+    let myThis = this;
+
+    window.onpopstate = function(event) {
+      pathName = window.location.pathname.substring(1);
+      console.log(`onpopstate - location: ${document.location}, state: ${JSON.stringify(event.state)}`)
+      myThis.setPageFromUrl(pathName);
+    }
   },
 
   data: () => ({
@@ -123,6 +131,8 @@ export default {
       let index = this.pages.findIndex((p) => p.url == url);
       if (index != -1) {
         this.selectedPageNumber = index;
+      } else {
+        this.selectedPageNumber = null;
       }
     },
   },
@@ -130,7 +140,9 @@ export default {
   watch: {
     selectedPage(page){
       //Store the URL in history
-      history.pushState({}, page.title, page.url);
+      if (window.location.pathname != '/' + page.url){
+        history.pushState({}, page.title, page.url);
+      }
     }
   }
 };
