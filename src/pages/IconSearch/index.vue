@@ -2,7 +2,7 @@
   <v-card
     tile
     elevation="16"
-    class="mx-auto pageCard"
+    class="mx-auto fill-height"
     v-resize="onResize"
     id="iconListCard"
   >
@@ -32,7 +32,7 @@
     </v-card-title>
     <v-virtual-scroll
       :items="iconRows"
-      height="600"
+      style="height: calc(100% - 102px)"
       :item-height="iconCardSize.height"
       bench="2"
     >

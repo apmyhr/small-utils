@@ -50,6 +50,10 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  height: 100%;
+}
+
 .container .card .face {
   width: 320px;
   height: 220px;
