@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app style="height: calc(100vh)">
     <v-app-bar dense app color="primary" dark>
       <v-app-bar-nav-icon @click="drawer = true"
         ><v-icon>mdi-menu</v-icon></v-app-bar-nav-icon
@@ -71,7 +71,11 @@ export default {
     this.$vuetify.theme.dark = this.darkMode;
 
     this.$bus.$on("go-to-page", (page) => {
-      this.selectedPage = page;
+      if (page){
+        this.selectedPage = page;
+      } else {
+        this.selectedPage = this.homePage;
+      }
     });
 
     //Get the path name, minus the leading /
@@ -141,7 +145,11 @@ export default {
     selectedPage(page){
       //Store the URL in history
       if (window.location.pathname != '/' + page.url){
-        history.pushState({}, page.title, page.url);
+        if (page?.url){
+          history.pushState({}, page.title, page.url);
+        } else {
+          document.location = '/';
+        }
       }
     }
   }
@@ -155,8 +163,6 @@ export default {
 </style>
 
 <style>
-.pageCard {
-  height: calc(100%);
-  width: 100%;
-}
+/** Remove always visible scroll bar */
+html { overflow-y: auto }
 </style>
