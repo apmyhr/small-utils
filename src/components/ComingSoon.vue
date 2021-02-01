@@ -1,34 +1,26 @@
 <template>
-  <v-container>
-    <span class="glow">{{ page.title }} Is Coming Soon!</span>
-  </v-container>
+  <v-card width="500" class="mx-auto mt-6" flat tile color="transparent">
+    <v-card-title class="headline">Coming Soon</v-card-title>
+    <v-card-text>{{ page.description }}</v-card-text>
+    <v-icon size="256" class="text-center">{{ page.icon }}</v-icon>
+    <v-card-actions>
+      <v-btn color="warning" class="ma-6" @click="goHome"
+        ><v-icon left class="mr-4">mdi-home-city</v-icon> SmallUtils.com</v-btn
+      >
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>
 export default {
   props: ["page"],
+  methods: {
+    goHome() {
+      this.$bus.$emit("go-to-page", null);
+    },
+  },
 };
 </script>
 
 <style scoped>
-.glow {
-  font-size: 80px;
-  color: #fff;
-  text-align: center;
-  -webkit-animation: glow 1s ease-in-out infinite alternate;
-  -moz-animation: glow 1s ease-in-out infinite alternate;
-  animation: glow 1s ease-in-out infinite alternate;
-}
-
-@-webkit-keyframes glow {
-  from {
-    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073,
-      0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
-  }
-
-  to {
-    text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6,
-      0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
-  }
-}
 </style>
