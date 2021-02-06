@@ -10,7 +10,7 @@
         <v-icon large>{{ icon }}</v-icon>
       </v-btn>
       <v-btn icon @click="copyVuetifyIcon('', '')">
-        <v-icon >{{ icon }}</v-icon>
+        <v-icon>{{ icon }}</v-icon>
       </v-btn>
       <v-btn icon small @click="copyVuetifyIcon(' small', '')">
         <v-icon small>{{ icon }}</v-icon>
@@ -38,7 +38,12 @@
             icon
             class="mx-2"
             :class="'mb-' + Math.min(index * 2, 6)"
-            @click='copyVuetifyIcon(` size="${s}"`, ` color="${item}"`)'
+            @click="
+              copyVuetifyIcon(
+                ` size=&quot;${s}&quot;`,
+                ` color=&quot;${item}&quot;`
+              )
+            "
           >
             <v-icon :size="s" :color="item">{{ icon }}</v-icon>
           </v-btn>

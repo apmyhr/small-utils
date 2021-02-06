@@ -44,7 +44,7 @@
     </v-navigation-drawer>
 
     <v-main class="mainSection">
-      <IconSearch v-if="selectedPage.title == 'Icon Search'"></IconSearch>      
+      <IconSearch v-if="selectedPage.title == 'Icon Search'"></IconSearch>
       <Home v-else-if="selectedPage.url == ''"></Home>
       <ComingSoon v-else :page="selectedPage"></ComingSoon>
     </v-main>
@@ -74,7 +74,7 @@ export default {
     this.$vuetify.theme.dark = this.darkMode;
 
     this.$bus.$on("go-to-page", (page) => {
-      if (page){
+      if (page) {
         this.selectedPage = page;
       } else {
         this.selectedPage = this.homePage;
@@ -90,11 +90,15 @@ export default {
 
     let myThis = this;
 
-    window.onpopstate = function(event) {
+    window.onpopstate = function (event) {
       pathName = window.location.pathname.substring(1);
-      console.log(`onpopstate - location: ${document.location}, state: ${JSON.stringify(event.state)}`)
+      console.log(
+        `onpopstate - location: ${document.location}, state: ${JSON.stringify(
+          event.state
+        )}`
+      );
       myThis.setPageFromUrl(pathName);
-    }
+    };
   },
 
   data: () => ({
@@ -145,17 +149,17 @@ export default {
   },
 
   watch: {
-    selectedPage(page){
+    selectedPage(page) {
       //Store the URL in history
-      if (window.location.pathname != '/' + page.url){
-        if (page?.url){
+      if (window.location.pathname != "/" + page.url) {
+        if (page?.url) {
           history.pushState({}, page.title, page.url);
         } else {
-          document.location = '/';
+          document.location = "/";
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -167,5 +171,7 @@ export default {
 
 <style>
 /** Remove always visible scroll bar */
-html { overflow-y: auto }
+html {
+  overflow-y: auto;
+}
 </style>

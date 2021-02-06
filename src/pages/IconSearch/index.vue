@@ -188,9 +188,9 @@ export default {
       this.selectedIcon = icon;
       this.showPopup = true;
     },
-    copyText(icon){
-      this.$bus.$emit('copy-text', icon);
-    }
+    copyText(icon) {
+      this.$bus.$emit("copy-text", icon);
+    },
   },
 };
 </script>
