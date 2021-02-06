@@ -52,7 +52,9 @@
             :height="iconCardSize.height"
             :width="iconCardSize.width"
           >
-            <v-icon size="88" class="mx-8">{{ icon }}</v-icon>
+            <v-icon size="88" class="mx-8" @click="showIcon(icon)">{{
+              icon
+            }}</v-icon>
             <v-card-actions class="caption pa-0 ma-0">
               <v-card-subtitle
                 class="caption pa-0 ma-0 ml-2 text-truncate text-center"
@@ -72,9 +74,9 @@
         </v-card>
       </template>
     </v-virtual-scroll>
-    <v-snackbar v-model="copySnackbar" timeout="2000">
-      {{ copiedText }} Copied to Clipboard
-    </v-snackbar>
+    <v-dialog v-model="showPopup" width="600">
+      <IconPopup :icon="selectedIcon" />
+    </v-dialog>
   </v-card>
 </template>
 
@@ -82,9 +84,13 @@
 import * as arrayUtils from "../../utils/arrayUtils";
 import * as functionUtils from "../../utils/functionUtils";
 
+import IconPopup from "./IconPopup";
+
 export default {
   name: "IconSearch",
-  components: {},
+  components: {
+    IconPopup,
+  },
   created() {
     //Get a handle to this before we fire off the async fetch call
     let myThis = this;
@@ -117,8 +123,8 @@ export default {
         width: 152,
         height: 124,
       },
-      copySnackbar: false,
-      copiedText: null,
+      showPopup: false,
+      selectedIcon: null,
     };
   },
   computed: {
@@ -171,11 +177,6 @@ export default {
     updateFilterText: functionUtils.debounce(function (newValue) {
       this.filterText = newValue;
     }, 500),
-    copyText(text) {
-      navigator.clipboard.writeText(text);
-      this.copySnackbar = true;
-      this.copiedText = text;
-    },
     onResize() {
       let element = document.getElementById("iconListCard");
       this.iconListSize = {
@@ -183,6 +184,13 @@ export default {
         height: element.clientHeight,
       };
     },
+    showIcon(icon) {
+      this.selectedIcon = icon;
+      this.showPopup = true;
+    },
+    copyText(icon){
+      this.$bus.$emit('copy-text', icon);
+    }
   },
 };
 </script>

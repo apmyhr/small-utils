@@ -48,6 +48,7 @@
       <Home v-else-if="selectedPage.url == ''"></Home>
       <ComingSoon v-else :page="selectedPage"></ComingSoon>
     </v-main>
+    <Clipboard></Clipboard>
   </v-app>
 </template>
 
@@ -55,6 +56,7 @@
 import pages from "./configs/pages.json";
 
 import ComingSoon from "./components/ComingSoon";
+import Clipboard from "./components/Clipboard";
 import Home from "./pages/Home";
 import IconSearch from "./pages/IconSearch";
 
@@ -62,6 +64,7 @@ export default {
   name: "App",
 
   components: {
+    Clipboard,
     ComingSoon,
     Home,
     IconSearch,
