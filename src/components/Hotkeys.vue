@@ -1,5 +1,37 @@
 <template>
-  <v-dialog v-model="showList"></v-dialog>
+  <v-dialog v-model="showList" width="600">
+    <v-card v-if="showList">
+      <v-card-title>Searchable Hotkey Actions</v-card-title>
+      <v-card-text>
+        <v-autocomplete
+          :items="keyActions"
+          label="Search for Action"
+          autofocus
+          item-text="title"
+          return-object
+          @change="actionSelected"
+        >
+          <template v-slot:item="data">
+            <v-list-item-avatar>
+              <v-icon>{{ data.item.icon }}</v-icon>
+            </v-list-item-avatar>
+            <v-list-item-title>
+              {{ data.item.title }}
+            </v-list-item-title>
+            <v-list-item-action-text>
+              <v-chip-group>
+                <v-chip color="info">Ctrl</v-chip>
+                <v-chip color="success">Shift</v-chip>
+                <v-chip color="warning">{{
+                  data.item.key.toUpperCase()
+                }}</v-chip>
+              </v-chip-group>
+            </v-list-item-action-text>
+          </template>
+        </v-autocomplete>
+      </v-card-text>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
@@ -29,11 +61,18 @@ export default {
   created() {
     console.log("Registering hotkey listener");
     document.onkeydown = this.keyEvent;
+
+    this.$bus.$on("show-hotkeys", () => {
+      this.showList = true;
+    });
   },
   data() {
     return {
       showList: false,
       keyActions: [
+        new HotkeyAction("p", "Execute an Action", "mdi-keyboard", () => {
+          this.showList = true;
+        }),
         new HotkeyAction(
           "d",
           "Toggle Dark Mode",
@@ -60,6 +99,17 @@ export default {
 
   methods: {
     /**
+     * Action selected from drop down
+     * @param {HotkeyAction} item
+     */
+    actionSelected(item) {
+      console.log(`Selected action: ${item.title}`);
+      this.showList = false;
+      item.action.apply(this);
+    },
+
+    /**
+     * Key down event.
      * @param {KeyboardEvent} e
      */
     keyEvent(e) {
@@ -68,7 +118,7 @@ export default {
         let hotKey = this.keyActions.find((k) => k.key == e.key.toLowerCase());
         if (hotKey) {
           console.log(`Hotkey pressed: ${e.key} - ${hotKey.title}`);
-          hotKey.action();
+          hotKey.action.apply(this);
           return false;
         }
       }

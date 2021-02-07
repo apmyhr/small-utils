@@ -4,6 +4,9 @@
       <v-app-bar-nav-icon @click="drawer = true"
         ><v-icon>mdi-menu</v-icon></v-app-bar-nav-icon
       >
+      <v-app-bar-nav-icon @click="$bus.$emit('show-hotkeys')"
+        ><v-icon>mdi-keyboard</v-icon></v-app-bar-nav-icon
+      >
 
       <v-spacer></v-spacer>
 
