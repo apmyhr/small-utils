@@ -49,6 +49,7 @@
       <ComingSoon v-else :page="selectedPage"></ComingSoon>
     </v-main>
     <Clipboard></Clipboard>
+    <Hotkeys></Hotkeys>
   </v-app>
 </template>
 
@@ -57,6 +58,7 @@ import pages from "./configs/pages.json";
 
 import ComingSoon from "./components/ComingSoon";
 import Clipboard from "./components/Clipboard";
+import Hotkeys from "./components/Hotkeys";
 import Home from "./pages/Home";
 import IconSearch from "./pages/IconSearch";
 
@@ -65,6 +67,7 @@ export default {
 
   components: {
     Clipboard,
+    Hotkeys,
     ComingSoon,
     Home,
     IconSearch,
