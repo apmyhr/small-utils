@@ -99,6 +99,7 @@ export default {
       .then((res) => res.json())
       .then((out) => {
         myThis.icons = out;
+        myThis.sortIcons();
         console.log(`Finished fetching ${myThis.icons.length} icons`);
       })
       .catch((err) => {
@@ -140,7 +141,10 @@ export default {
         //Sort it such that items with the filtered text in beginning will show up first
         //When searching "file", this ensures "mdi-file" will show up long before "mdi-face-profile"
         filteredList.sort(function (a, b) {
-          return a.indexOf(lowerCase) - b.indexOf(lowerCase);
+          let aPart = a.split('-').slice(1).join('-');
+          let bPart = b.split('-').slice(1).join('-');
+
+          return aPart.indexOf(lowerCase) - bPart.indexOf(lowerCase);
         });
 
         return filteredList;
@@ -174,6 +178,26 @@ export default {
     },
   },
   methods: {
+    /**
+     * Sort icons such that we ignore the leading "mdi-" or "fa-"
+     */
+    sortIcons(){
+      /** @type{String[]} */
+      let icons = this.icons.slice();
+
+      let start = Date.now();
+      console.log(`Sorting ${icons.length} icons`)
+
+      icons.sort((a, b) => {
+        let aPart = a.split('-').slice(1).join('');
+        let bPart = b.split('-').slice(1).join('');
+
+        return aPart.localeCompare(bPart);
+      })
+      console.log(`Icons sorting in ${Date.now() - start} milliseconds`)
+
+      this.icons = icons;
+    },
     updateFilterText: functionUtils.debounce(function (newValue) {
       this.filterText = newValue;
     }, 500),

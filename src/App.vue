@@ -4,6 +4,9 @@
       <v-app-bar-nav-icon @click="drawer = true"
         ><v-icon>mdi-menu</v-icon></v-app-bar-nav-icon
       >
+      <v-app-bar-nav-icon @click="$bus.$emit('show-hotkeys')"
+        ><v-icon>mdi-keyboard</v-icon></v-app-bar-nav-icon
+      >
 
       <v-spacer></v-spacer>
 
@@ -49,6 +52,7 @@
       <ComingSoon v-else :page="selectedPage"></ComingSoon>
     </v-main>
     <Clipboard></Clipboard>
+    <Hotkeys></Hotkeys>
   </v-app>
 </template>
 
@@ -57,6 +61,7 @@ import pages from "./configs/pages.json";
 
 import ComingSoon from "./components/ComingSoon";
 import Clipboard from "./components/Clipboard";
+import Hotkeys from "./components/Hotkeys";
 import Home from "./pages/Home";
 import IconSearch from "./pages/IconSearch";
 
@@ -65,6 +70,7 @@ export default {
 
   components: {
     Clipboard,
+    Hotkeys,
     ComingSoon,
     Home,
     IconSearch,
