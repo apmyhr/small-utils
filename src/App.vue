@@ -48,6 +48,7 @@
 
     <v-main class="mainSection">
       <IconSearch v-if="selectedPage.title == 'Icon Search'"></IconSearch>
+      <DataGenerator v-else-if="selectedPage.title == 'Data Generator'"></DataGenerator>
       <Home v-else-if="selectedPage.url == ''"></Home>
       <ComingSoon v-else :page="selectedPage"></ComingSoon>
     </v-main>
@@ -64,6 +65,7 @@ import Clipboard from "./components/Clipboard";
 import Hotkeys from "./components/Hotkeys";
 import Home from "./pages/Home";
 import IconSearch from "./pages/IconSearch";
+import DataGenerator from "./pages/DataGenerator";
 
 export default {
   name: "App",
@@ -74,6 +76,7 @@ export default {
     ComingSoon,
     Home,
     IconSearch,
+    DataGenerator
   },
 
   created() {
