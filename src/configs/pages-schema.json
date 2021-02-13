@@ -16,6 +16,10 @@
                         "type": "string",
                         "description": "Title of the Page"
                     },
+                    "keywords": {
+                        "type": "string",
+                        "description": "Keywords for the Page"
+                    },
                     "icon": {
                         "type": "string",
                         "description": "Icon for the page"

@@ -48,7 +48,9 @@
 
     <v-main class="mainSection">
       <IconSearch v-if="selectedPage.title == 'Icon Search'"></IconSearch>
-      <DataGenerator v-else-if="selectedPage.title == 'Data Generator'"></DataGenerator>
+      <DataGenerator
+        v-else-if="selectedPage.title == 'Data Generator'"
+      ></DataGenerator>
       <Home v-else-if="selectedPage.url == ''"></Home>
       <ComingSoon v-else :page="selectedPage"></ComingSoon>
     </v-main>
@@ -67,6 +69,8 @@ import Home from "./pages/Home";
 import IconSearch from "./pages/IconSearch";
 import DataGenerator from "./pages/DataGenerator";
 
+import * as domUtils from "./utils/domUtils";
+
 export default {
   name: "App",
 
@@ -76,7 +80,7 @@ export default {
     ComingSoon,
     Home,
     IconSearch,
-    DataGenerator
+    DataGenerator,
   },
 
   created() {
@@ -111,7 +115,14 @@ export default {
   },
 
   data: () => ({
-    homePage: { url: "", title: "Small Utils", icon: "mdi-tools" },
+    homePage: {
+      url: "",
+      title: "Small Utils",
+      icon: "mdi-tools",
+      description:
+        "A collection of web based utilities, such as MDI and Font Awesome icon search.",
+      keywords: "SmallUtils",
+    },
     drawer: false,
     selectedPageNumber: null,
   }),
@@ -166,6 +177,10 @@ export default {
         } else {
           document.location = "/";
         }
+      }
+
+      if (page) {
+        domUtils.UpdatePageMetaTag(page.description, page.title, page.keywords);
       }
     },
   },
