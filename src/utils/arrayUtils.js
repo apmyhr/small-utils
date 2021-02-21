@@ -15,3 +15,18 @@ export function divideIntoRows(items, rowLength){
 
     return rows;
 }
+
+/**
+ * Return an array of size array length, filled with a function
+ * @param {Number} size Size of array
+ * @param {Function} fillFunction Function to fill with
+ * @returns {Array} The array
+ */
+export function fillWithFunction(size, fillFunction){
+    let array = new Array(size);
+    for (let i = 0; i < size; i++){
+        array[i] = fillFunction(i);
+    }
+
+    return array;
+}

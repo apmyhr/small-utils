@@ -1,30 +1,39 @@
 <template>
-  <v-card
-    class="d-flex justify-center flex-wrap container"
-    tile
-    flat
-    color="transparent"
-  >
-    <v-hover v-slot="{ hover }" v-for="(page, index) in pages" :key="index">
-      <v-card tile flat color="transparent" class="card ma-6">
-        <div class="face face1" @click="if (hover) { goToPage(page) }">
-          <div class="content">
-            <v-icon size="64" color="white">{{ page.icon }}</v-icon>
-            <h3 class="white--text text-center">{{ page.title }}</h3>
-          </div>
-        </div>
-        <v-expand-transition>
-          <v-card v-show="hover" tile width="320">
+  <v-card flat tile :color="darkMode ? '#121212' : '#FFFFFF'">
+    <v-card
+      class="d-flex justify-center flex-wrap container"
+      tile
+      flat
+      color="transparent"
+    >
+      <v-hover v-slot="{ hover }" v-for="(page, index) in pages" :key="index">
+        <v-card tile flat color="transparent" class="card ma-6">
+          <div
+            class="face face1"
+            @click="
+              if (hover) {
+                goToPage(page);
+              }
+            "
+          >
             <div class="content">
-              <p class="body-2 px-6 pt-8">{{ page.description }}</p>
-              <v-btn color="warning" class="ma-6" @click="goToPage(page)">{{
-                page.title
-              }}</v-btn>
+              <v-icon size="64" color="white">{{ page.icon }}</v-icon>
+              <h3 class="white--text text-center">{{ page.title }}</h3>
             </div>
-          </v-card>
-        </v-expand-transition>
-      </v-card>
-    </v-hover>
+          </div>
+          <v-expand-transition>
+            <v-card v-show="hover" tile width="320">
+              <div class="content">
+                <p class="body-2 px-6 pt-8">{{ page.description }}</p>
+                <v-btn color="warning" class="ma-6" @click="goToPage(page)">{{
+                  page.title
+                }}</v-btn>
+              </div>
+            </v-card>
+          </v-expand-transition>
+        </v-card>
+      </v-hover>
+    </v-card>
   </v-card>
 </template>
 
@@ -39,6 +48,9 @@ export default {
   computed: {
     pages() {
       return pages.pages;
+    },
+    darkMode() {
+      return this.$store.state.settings.darkMode;
     },
   },
   methods: {

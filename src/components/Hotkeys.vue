@@ -104,8 +104,8 @@ export default {
      */
     actionSelected(item) {
       console.log(`Selected action: ${item.title}`);
-      this.showList = false;
       item.action.apply(this);
+      this.showList = false;
     },
 
     /**
