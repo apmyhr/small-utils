@@ -6,8 +6,10 @@ import store from './store'
 //This makes the icons available offline, but it adds about 3MB to the deployment.
 //yarn add @mdi/font -D
 //yarn add @fortawesome/fontawesome-free -D
+//yarn add material-design-icons-iconfont -D
 //import '@mdi/font/css/materialdesignicons.css'
 //import '@fortawesome/fontawesome-free/css/all.css' 
+//import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
 Vue.config.productionTip = false
 
