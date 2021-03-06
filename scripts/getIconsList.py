@@ -14,6 +14,8 @@ filenames = [
 
 font_awesome_filename = os.path.join(script_dir, '../node_modules/@fortawesome/fontawesome-free/metadata/icons.yml')
 
+material_design_filename = os.path.join(script_dir, "../node_modules/material-design-icons-iconfont/dist/fonts/MaterialIcons-Regular.json")
+
 output_path = os.path.join(script_dir, "../public/data/iconList.json")
 
 icons = []
@@ -53,6 +55,15 @@ for icon_name in data:
         icons.append('fab fa-' + icon_name)
     else:
         icons.append('fas fa-' + icon_name)
+
+# Process Material Design JSON file
+print("Attempting to read {}".format(material_design_filename))
+with open(material_design_filename, 'r') as f:
+    data = json.load(f)
+    print("Found {} Icons from MaterialIcons-Regular.json".format(len(data)))
+
+for icon_name in data:
+    icons.append(icon_name)
 
 # Write the list of icons to a file
 print("Writting {} icons to {}".format(len(icons), output_path))
