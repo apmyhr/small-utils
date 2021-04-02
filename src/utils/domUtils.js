@@ -8,7 +8,7 @@ const PAGE_META_TAG_KEYWORDS = "pageMetaTagKeywords";
  * @param {String} title 
  * @param {String} keywords 
  */
-export function UpdatePageMetaTag(description, title, keywords){
+export function UpdatePageMetaTag(description, title, keywords) {
     let metaDescirption = document.getElementById(PAGE_META_TAG_DESCRIPTION);
     let metaTitle = document.getElementById(PAGE_META_TAG_TITLE);
     let metaKeywords = document.getElementById(PAGE_META_TAG_KEYWORDS);

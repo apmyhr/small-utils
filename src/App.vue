@@ -48,6 +48,7 @@
 
     <v-main class="mainSection">
       <IconSearch v-if="selectedPage.title == 'Icon Search'"></IconSearch>
+      <PdfPlayground v-else-if="selectedPage.title == 'PDF Playground'"></PdfPlayground>
       <DataGenerator
         v-else-if="selectedPage.title == 'Data Generator'"
       ></DataGenerator>
@@ -67,6 +68,7 @@ import Clipboard from "./components/Clipboard";
 import Hotkeys from "./components/Hotkeys";
 import Home from "./pages/Home";
 import IconSearch from "./pages/IconSearch";
+import PdfPlayground from "./pages/PdfPlayground";
 import DataGenerator from "./pages/DataGenerator";
 
 import * as domUtils from "./utils/domUtils";
@@ -80,6 +82,7 @@ export default {
     ComingSoon,
     Home,
     IconSearch,
+    PdfPlayground,
     DataGenerator,
   },
 
