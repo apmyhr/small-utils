@@ -4,5 +4,11 @@
     },
     {
         "title": "Chinese Simplified", "file": "ZCOOLXiaoWei-Regular.ttf"
+    },
+    {
+        "title": "Noto", "file": "KlokanTechNotoSans-Regular.ttf"
+    },
+    {
+        "title": "Microsoft Arial", "file": "Arial-Unicode-MS_4302.ttf"
     }
 ]

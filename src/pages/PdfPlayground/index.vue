@@ -81,9 +81,18 @@ export default {
       fontList: [],
       loadedFonts: [],
       fileName: "MyPdf.pdf",
-      // text: "Hello world this is some arabic text that I want to send to Jason.  He needs to remember to bring the stuff with him to our meeting on Monday.",
       text:
-        "Hello world this is some arabic text that I want to send to Jason.  He needs to remember to bring the stuff with him to our meeting on Monday.\nمرحباً بالعالم ، هذا نص عربي أريد أن أرسله إلى جايسون. يجب أن يتذكر إحضار الأشياء معه إلى اجتماعنا يوم الاثنين.\n您好，世界，这是我想发送给Jason的一些阿拉伯文字。 他需要记住将这些东西带到我们周一的会议上。",
+        "English: Send Jason the tape of our conversation from Friday.  He needs to bring the stuff in three days." +
+        "\n\nSpanish: Envoyez à Jason la cassette de notre conversation de vendredi. Il doit apporter les affaires dans trois jours.."+
+        "\n\nFrench: Envíale a Jason la cinta de nuestra conversación del viernes. Necesita traer las cosas en tres días."+
+        "\n\nRussian: Отправьте Джейсону запись нашего разговора с пятницы. Ему нужно привезти вещи через три дня."+
+        "\n\nTurkish: Jason'a Cuma günkü konuşmamızın kasetini gönder. Eşyaları üç gün içinde getirmesi gerekiyor."+
+        "\n\nPersian: نوار گفتگوی ما را از جمعه برای جیسون ارسال کنید. او باید ظرف سه روز وسایل را بیاورد."+
+        "\n\nArabic: أرسل لجيسون شريط حديثنا يوم الجمعة. يحتاج إلى إحضار الأشياء في ثلاثة أيام." +
+        "\n\nChinese Simplified: 从星期五开始，向杰森发送我们谈话的录音带。 他需要三天之内就带好东西。" +
+        "\n\nChinese Traditional: 從星期五開始，向杰森發送我們談話的錄音帶。 他需要三天之內就帶好東西。" +
+        "\n\nKorean: 금요일부터 우리 대화 테이프를 Jason에게 보냅니다. 그는 3 일 안에 물건을 가져와야합니다." +
+        "\n\nVietnamese: Gửi cho Jason đoạn băng cuộc trò chuyện của chúng ta từ thứ Sáu. Anh ấy cần mang đồ sau ba ngày nữa."
     };
   },
   computed: {},
@@ -100,7 +109,13 @@ export default {
         doc.setFont(p.title);
       });
 
-      doc.text(this.text, 10, 10);
+      var lMargin=15; //left margin in mm
+      var rMargin=15; //right margin in mm
+      var pdfInMM=210;  // width of A4 in mm
+
+      var lines = doc.splitTextToSize(this.text, (pdfInMM-lMargin-rMargin));
+
+      doc.text(lMargin, 20, lines);
       doc.save(this.fileName);
     },
 
