@@ -1,59 +1,80 @@
 <template>
-  <v-card-title tile elevation="16" class="mx-auto fill-height">
-    <v-card-title>Add Text to put into PDF</v-card-title>
-    <v-card-text>
-      <v-text-field
-        v-model="fileName"
-        label="File Name"
-        hint="Set the file name"
-      ></v-text-field>
-    </v-card-text>
-    <v-card-text>
-      <v-textarea
-        label="Text"
-        hint="Set the text of the PDF"
-        v-model="text"
-      ></v-textarea>
-    </v-card-text>
-    <v-card-actions>
-      <v-btn @click="makePDF" color="success"
-        >Make PDF <v-icon right>mdi-file-download</v-icon></v-btn
-      >
-      <v-spacer></v-spacer>
-      <v-btn @click="showFontList = true" color="primary"
-        >Load Font <v-icon right>mdi-translate</v-icon></v-btn
-      >
-    </v-card-actions>
+  <v-container style="height: 100%">
+    <v-row no-gutters style="height: 100%">
+      <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
+        <v-card tile flat class="mx-auto fill-height">
+          <v-card-title>Add Text to put into PDF</v-card-title>
+          <v-card-text>
+            <v-text-field
+              v-model="fileName"
+              label="File Name"
+              hint="Set the file name"
+              prepend-icon="mdi-file-pdf"
+            ></v-text-field>
+            <v-textarea
+              label="Text"
+              hint="Set the text of the PDF"
+              v-model="text"
+              prepend-icon="text_fields"
+            ></v-textarea>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn @click="makePDF(true)" color="success"
+              >Preview <v-icon right>preview</v-icon></v-btn
+            >
+            <v-btn @click="makePDF(false)" color="success"
+              >Download <v-icon right>mdi-file-download</v-icon></v-btn
+            >
+            <v-btn @click="showFontList = true" color="primary"
+              >Load Font <v-icon right>mdi-translate</v-icon></v-btn
+            >
+          </v-card-actions>
 
-    <v-dialog v-model="showFontList" width="600">
-      <v-card v-if="showFontList">
-        <v-card-title>Searchable Font List</v-card-title>
-        <v-card-text>
-          <v-autocomplete
-            :items="fontList"
-            label="Search for Font"
-            autofocus
-            item-text="title"
-            return-object
-            @change="fontSelected"
-          >
-            <template v-slot:item="data">
-              <v-list-item-title>
-                {{ data.item.title }}
-              </v-list-item-title>
-              <v-list-item-subtitle> {{ data.item.file }}</v-list-item-subtitle>
-            </template>
-          </v-autocomplete>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
-  </v-card-title>
+          <v-dialog v-model="showFontList" width="600">
+            <v-card v-if="showFontList">
+              <v-card-title>Searchable Font List</v-card-title>
+              <v-card-text>
+                <v-autocomplete
+                  :items="fontList"
+                  label="Search for Font"
+                  autofocus
+                  item-text="title"
+                  return-object
+                  @change="fontSelected"
+                >
+                  <template v-slot:item="data">
+                    <v-list-item-title>
+                      {{ data.item.title }}
+                    </v-list-item-title>
+                    <v-list-item-subtitle>
+                      {{ data.item.file }}</v-list-item-subtitle
+                    >
+                  </template>
+                </v-autocomplete>
+              </v-card-text>
+            </v-card>
+          </v-dialog>
+        </v-card></v-col
+      >
+      <v-col cols="12" xl="6" lg="6" md="12" sm="12" xs="12">
+        <v-card tile flat class="mx-auto fill-height">
+          <embed
+            v-if="pdfFinished && pdfOutputString"
+            width="100%"
+            height="100%"
+            :itemid="fileName"
+            :src="pdfOutputString"
+          />
+          <v-card-title v-else-if="makingPDF">Creating PDF...</v-card-title>
+          <v-card-title v-else>PDF Preview</v-card-title>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
-
 <script>
-// import * as arrayUtils from "../../utils/arrayUtils";
-// import * as functionUtils from "../../utils/functionUtils";
 import { jsPDF } from "jspdf";
+import * as functionUtils from "../../utils/functionUtils";
 
 export default {
   name: "PdfPlayground",
@@ -80,9 +101,13 @@ export default {
       fontFileURL: "/data/fonts/",
       fontList: [],
       loadedFonts: [],
+      makingPDF: false,
+      pdfFinished: true,
+      pdfOutputString: null,
       fileName: "MyPdf.pdf",
       text:
-        "English: Send Jason the tape of our conversation from Friday.  He needs to bring the stuff in three days." +
+        "Emojis: 😂🤣❤🎁✨😃🐱‍👤🐱‍🏍🚀🚀🚀🐳🐳." +
+        "\n\nEnglish: Send Jason the tape of our conversation from Friday.  He needs to bring the stuff in three days." +
         "\n\nSpanish: Envoyez à Jason la cassette de notre conversation de vendredi. Il doit apporter les affaires dans trois jours.." +
         "\n\nFrench: Envíale a Jason la cinta de nuestra conversación del viernes. Necesita traer las cosas en tres días." +
         "\n\nRussian: Отправьте Джейсону запись нашего разговора с пятницы. Ему нужно привезти вещи через три дня." +
@@ -97,7 +122,17 @@ export default {
   },
   computed: {},
   methods: {
-    makePDF() {
+    /**
+     * @param {Boolean} preview preview the pdf
+     */
+    async makePDF(preview) {
+      this.pdfFinished = false;
+      this.makingPDF = true;
+      this.pdfOutputString = null;
+
+      //Delay to re-render
+      await functionUtils.delay(500);
+
       // Default export is a4 paper, portrait, using millimeters for units
       const doc = new jsPDF();
 
@@ -116,7 +151,15 @@ export default {
       var lines = doc.splitTextToSize(this.text, pdfInMM - lMargin - rMargin);
 
       doc.text(lMargin, 20, lines);
-      doc.save(this.fileName);
+      if (preview) {
+        this.pdfOutputString = doc.output("datauristring");
+        this.pdfFinished = true;
+        this.makingPDF = false;
+      } else {
+        this.pdfFinished = true;
+        this.makingPDF = false;
+        doc.save(this.fileName);
+      }
     },
 
     fontSelected(font) {
@@ -139,6 +182,7 @@ export default {
           //File reader is for some reason asynchronous
           reader.onloadend = function () {
             fontObj.data = reader.result;
+            myThis.showFontList = false;
           };
           //This starts the conversion
           reader.readAsBinaryString(out);
