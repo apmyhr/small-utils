@@ -1,5 +1,7 @@
 # Get the list of icons from an icon CSS file
 
+# python -m pip install pyyaml
+
 import os
 import json
 import yaml
