@@ -15,3 +15,13 @@ export function debounce(fn, delay) {
         }, delay)
     }
 }
+
+/**
+ * Wait for a timeout.  This can be used with await in an async function.
+ * @example await delay(5000); //Delay 5 seconds. 
+ * @param {Number} ms Time to wait in milliseconds
+ * @returns 
+ */
+export function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}

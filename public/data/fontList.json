@@ -1,0 +1,18 @@
+[
+    {
+        "title": "Microsoft Arial Unicode",
+        "file": "Arial-Unicode-MS_4302.ttf"
+    },
+    {
+        "title": "Arabic",
+        "file": "Cairo-Regular.ttf"
+    },
+    {
+        "title": "Chinese Simplified",
+        "file": "ZCOOLXiaoWei-Regular.ttf"
+    },
+    {
+        "title": "Noto",
+        "file": "KlokanTechNotoSans-Regular.ttf"
+    }
+]

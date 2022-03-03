@@ -83,10 +83,10 @@ export class Random {
 export class Dictionary {
     /** @type {String[]} List of nouns */
     static firstNames = ['Matthew', 'John', 'Luke', 'Paul', 'Eric', 'Shannon', 'Chrstina', 'Sophia', 'Isabelle', 'Molly', 'Matt', 'Mary', 'Kim', 'Jose', 'Juan', 'Maria'];
-    
+
     /** @type {String[]} List of nouns */
     static lastNames = ['Smith', 'Rockefeller', 'Nugyen', 'Kim', 'Lee', 'Trump', 'Biden', 'Clinton', 'Bush', 'Anderson', 'Hamilton', 'Franklin', 'Hernandez'];
-    
+
     /** @type {String[]} List of nouns */
     static nouns = ['apple', 'ball', 'cat', 'bear', 'car', 'plane', 'road', 'factory', 'planet', 'country', 'world', 'dog', 'internet', 'computer', 'laptop', 'person', 'man', 'woman', 'child', 'pet', 'backpack'];
 

@@ -9,6 +9,13 @@
         "description": "Search for icons across Material Design and Font Awesome."
     },
     {
+        "url": "Pdf",
+        "title": "PDF Playground",
+        "keywords": "pdf",
+        "icon": "mdi-file-pdf",
+        "description": "Playground for testing PDF creation."
+    },
+    {
         "url": "Picture",
         "title": "Picture Tools",
         "keywords": "picture tools",
