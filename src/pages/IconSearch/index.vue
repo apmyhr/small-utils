@@ -34,7 +34,7 @@
       :items="iconRows"
       style="height: calc(100% - 102px)"
       :item-height="iconCardSize.height"
-      bench="2"
+      bench="1"
     >
       <template v-slot:default="{ item }">
         <v-card
